@@ -320,6 +320,11 @@ if VERSION < v"1.8.0-DEV.1494" # 98e60ffb11ee431e462b092b48a31a1204bd263d
     allequal(r::AbstractRange) = iszero(step(r)) || length(r) <= 1
 end
 
+# https://github.com/JuliaLang/julia/pull/42689
+if VERSION < v"1.9.0-DEV.954" # COMMIT SHAAAAAAA
+    Base.length(s::SkipMissing{T}) where T <: AbstractArray = count(!ismissing, s.x)
+end
+
 # This function is available as of Julia 1.7.
 @static if !isdefined(Base, :keepat!)
     export keepat!
